@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investimentos</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #253570;
+            color: white;
+        }
+
+        header, footer {
+            background-color: #18254D;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        h1 {
+            margin: 10px; /* Ajuste da margem para reduzir o espaço */
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px; /* Ajuste da margem para reduzir o espaço */
+        }
+
+        th, td {
+            padding: 10px;
+            border-bottom: 1px solid #18254D;
+            text-align: left;
+        }
+
+        th {
+            background-color: #18254D;
+        }
+
+        tr:nth-child(even) {
+            background-color: #0D1732;
+        }
+
+        button {
+            background-color: #18254D;
+            color: white;
+            border: none;
+            padding: 10px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s, box-shadow 0.3s;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        button:hover {
+            background-color: #253570;
+            box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.7);
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        nav {
+            background-color: #18254D;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px; /* Adicionando margem inferior */
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        nav li {
+            margin-left: 10px;
+        }
+
+        .logo {
+            padding: 1px 2px;
+        }
+
+        .welcome-container {
+            margin-right: 10px;
+        }
+
+        .button-container {
+            margin-right: 100px; /* Adicionando margem à direita */
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <a href="{% url 'investimentos' %}">Invista-Me!</a>
+        </div>
+        <div class="welcome-container">
+            <strong>Bem-Vindo {{user.get_username}}</strong>
+        </div>
+        <ul>
+            {% if user.is_authenticated %}
+            <li>
+                <a href="{% url 'logout' %}">Sair</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'login' %}">Login</a>
+            </li>
+            <li>
+                <a href="{% url 'novo_usuario' %}">Fazer Cadastro</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    <div class="content">
+     
+        
+        <div class="button-container">
+            <button><a href="{% url 'novo_investimento' %}">Criar novo investimento</a></button>
+        </div>
+
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Investimento</th>
+                <th>Valor</th>
+                <th>Detalhe</th>
+                <th>Editar</th>
+                <th>Excluir</th>
+            </tr>
+            {% for dado in dados %}
+            <tr>
+                <td>{{dado.id}}</td>
+                <td>{{dado.investimento}}</td>
+                <td>{{dado.valor}}</td>
+                <td><button><a href="{% url 'detalhe' dado.id %}">Detalhe</a></button></td>
+                <td><button><a href="{% url 'editar' dado.id %}">Editar</a></button></td>
+                <td><button><a href="{% url 'excluir' dado.id %}">Excluir</a></button></td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>

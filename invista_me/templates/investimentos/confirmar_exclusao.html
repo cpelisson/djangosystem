@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmar Exclusão</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #253570;
+            color: white;
+        }
+
+        header, footer {
+            background-color: #18254D;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        h1 {
+            margin: 20px;
+        }
+
+        form {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #0D1732;
+            border-radius: 10px;
+        }
+
+        button {
+            background-color: #18254D;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #253570;
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+        h4{
+            padding-left: 80px;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 1px 0;
+            list-style: none;
+            overflow: hidden;
+            background-color: #18254D;
+            border-radius: 10px;
+            box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        nav li {
+            float: right;
+        }
+
+        nav a {
+            display: block;
+            color: white;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        nav a:hover {
+            background-color: #253570;
+        }
+
+        .logo {
+            float: left;
+            padding: 1px 2px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            {% if user.is_authenticated %}
+            <li class="logo">
+                <a href="{% url 'investimentos' %}">Invista-Me!</a>
+            </li>
+            
+            <li>
+                <a href="{% url 'logout' %}">Sair</a>
+            </li>
+            {% else %}
+            <li>
+                <a href="{% url 'login' %}">Login</a>
+            </li>
+            <li>
+                <a href="{% url 'novo_usuario' %}">Fazer Cadastro</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}" >{{message}}</div>
+    {% endfor %}
+    {% endif %}
+   
+    <h4>Confirmar exclusão do {{item.investimento}}?</h4>
+    <form method="POST">
+        {% csrf_token %}
+        <button><a href="{% url 'investimentos' %}">Cancelar</a></button>
+        <button type="submit">Confirmar</button>
+    </form>
+
+    <footer>
+        <p>Footer</p>
+    </footer>
+</body>
+</html>
